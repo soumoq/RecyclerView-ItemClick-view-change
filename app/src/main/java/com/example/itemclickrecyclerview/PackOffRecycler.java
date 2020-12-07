@@ -17,13 +17,14 @@ public class PackOffRecycler extends RecyclerView.Adapter<PackOffRecycler.ViewHo
 
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
-    private ArrayList<String> userName;
+    private ArrayList<ProductInfo> proInfo;
+    private ProductInfo productInfo;
     private int selectedPos = RecyclerView.NO_POSITION;
 
     // data is passed into the constructor
-    public PackOffRecycler(Context context, ArrayList<String> name) {
+    public PackOffRecycler(Context context, ArrayList<ProductInfo> proInfo) {
         this.mInflater = LayoutInflater.from(context);
-        this.userName = name;
+        this.proInfo = proInfo;
     }
 
     // inflates the cell layout from xml when needed
@@ -37,7 +38,10 @@ public class PackOffRecycler extends RecyclerView.Adapter<PackOffRecycler.ViewHo
     // binds the data to the TextView in each cell
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
-        holder.name.setText(userName.get(position));
+        productInfo = proInfo.get(position);
+        holder.name.setText(productInfo.getPrice());
+        holder.price.setText(productInfo.getQty());
+
 
         //holder.itemView.setBackgroundColor(selectedPos == position ? Color.GREEN : Color.TRANSPARENT);
         if (selectedPos == position) {
@@ -52,20 +56,21 @@ public class PackOffRecycler extends RecyclerView.Adapter<PackOffRecycler.ViewHo
     // total number of cells
     @Override
     public int getItemCount() {
-        return userName.size();
+        return proInfo.size();
     }
 
 
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        TextView name;
+        TextView name, price;
         RelativeLayout root;
 
         ViewHolder(View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.item_name);
             root = itemView.findViewById(R.id.root);
+            price = itemView.findViewById(R.id.price);
             itemView.setOnClickListener(this);
 
 
@@ -84,8 +89,8 @@ public class PackOffRecycler extends RecyclerView.Adapter<PackOffRecycler.ViewHo
     }
 
     // convenience method for getting data at click position
-    public String getItem(int id) {
-        return userName.get(id);
+    public ProductInfo getItem(int id) {
+        return proInfo.get(id);
     }
 
     // allows clicks events to be caught

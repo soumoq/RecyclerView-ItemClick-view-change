@@ -22,13 +22,12 @@ public class MainActivity extends AppCompatActivity implements PackOffRecycler.I
         View view = getWindow().getDecorView().findViewById(android.R.id.content);
 
         recyclerView = findViewById(R.id.recycler_view);
-        ArrayList<String> name = new ArrayList<>();
-        name.add("123");
-        name.add("123");
-        name.add("123");
-        name.add("123");
+        ArrayList<ProductInfo> proInfo = new ArrayList<>();
 
-        PackOffRecycler exampleAdapter = new PackOffRecycler(MainActivity.this, name);
+        proInfo.add(new ProductInfo("3600", "2"));
+        proInfo.add(new ProductInfo("5500", "5"));
+
+        PackOffRecycler exampleAdapter = new PackOffRecycler(MainActivity.this, proInfo);
         exampleAdapter.setClickListener(MainActivity.this);
         recyclerView.setAdapter(exampleAdapter);
 
