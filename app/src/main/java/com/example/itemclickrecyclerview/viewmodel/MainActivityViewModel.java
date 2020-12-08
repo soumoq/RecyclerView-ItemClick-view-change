@@ -8,36 +8,24 @@ import com.example.itemclickrecyclerview.model.ProductInfo;
 import com.example.itemclickrecyclerview.repository.ProductInfoRepo;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivityViewModel extends ViewModel {
-    private MutableLiveData<ArrayList<ProductInfo>> mProductInfo;
-    private ProductInfoRepo productInfoRepo;
-    private MutableLiveData<Boolean> mIsUpdating = new MutableLiveData<>();
 
-    public void init() {
-        if (mProductInfo != null) {
-            return;
-        }
-        productInfoRepo = ProductInfoRepo.getInstance();
-        mProductInfo = productInfoRepo.getProductInfo();
+    private MutableLiveData<ArrayList<ProductInfo>> productInfoList = new MutableLiveData<>();
 
+    public MutableLiveData<ArrayList<ProductInfo>> getProductInfoList() {
+        return productInfoList;
     }
 
-    public void addNewValue(final ProductInfo productInfo) {
-        mIsUpdating.setValue(true);
-        ArrayList<ProductInfo> currentProduct = mProductInfo.getValue();
-        currentProduct.add(productInfo);
-        mProductInfo.postValue(currentProduct);
-        mIsUpdating.postValue(false);
+    public void fetchProductInfoList() {
+        ArrayList<ProductInfo> tempProductInfo = new ArrayList<>();
+        tempProductInfo.add(new ProductInfo(100.50, 5));
+        tempProductInfo.add(new ProductInfo(107.50, 20));
+        tempProductInfo.add(new ProductInfo(109.50, 40));
 
-    }
-
-    public LiveData<ArrayList<ProductInfo>> getProductInfo() {
-        return mProductInfo;
+        productInfoList.setValue(tempProductInfo);
     }
 
 
-    public LiveData<Boolean> getIsUpdating(){
-        return mIsUpdating;
-    }
 }

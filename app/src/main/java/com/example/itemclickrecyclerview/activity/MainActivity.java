@@ -2,7 +2,7 @@ package com.example.itemclickrecyclerview.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
@@ -13,16 +13,16 @@ import android.widget.Toast;
 
 import com.example.itemclickrecyclerview.model.ProductInfo;
 import com.example.itemclickrecyclerview.R;
-import com.example.itemclickrecyclerview.adapter.PackOffRecycler;
+import com.example.itemclickrecyclerview.adapter.ProductInfoAdapter;
 import com.example.itemclickrecyclerview.viewmodel.MainActivityViewModel;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements PackOffRecycler.ItemClickListener {
+public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private MainActivityViewModel mainActivityViewModel;
-    private PackOffRecycler exampleAdapter;
+    private ProductInfoAdapter productInfoAdapter;
     private Button add;
     private ProgressBar progressBar;
 
@@ -30,64 +30,54 @@ public class MainActivity extends AppCompatActivity implements PackOffRecycler.I
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        init();
 
-        mainActivityViewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
-        mainActivityViewModel.init();
-        mainActivityViewModel.getProductInfo().observe(this, new Observer<ArrayList<ProductInfo>>() {
-            @Override
-            public void onChanged(ArrayList<ProductInfo> productInfos) {
-                exampleAdapter.notifyDataSetChanged();
-            }
-        });
+        recyclerView = findViewById(R.id.recycler_view);
+        add = findViewById(R.id.button);
 
-        mainActivityViewModel.getIsUpdating().observe(this, new Observer<Boolean>() {
+        productInfoAdapter = new ProductInfoAdapter(this);
+        recyclerView.setAdapter(productInfoAdapter);
+
+        mainActivityViewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
+        mainActivityViewModel.getProductInfoList().observe(this, new Observer<ArrayList<ProductInfo>>() {
             @Override
-            public void onChanged(Boolean aBoolean) {
-                if (aBoolean) {
-                    progressBar.setVisibility(View.VISIBLE);
-                } else {
-                    progressBar.setVisibility(View.GONE);
-                    recyclerView.smoothScrollToPosition(mainActivityViewModel.getProductInfo().getValue().size() - 1);
+            public void onChanged(ArrayList<ProductInfo> productInfoList) {
+                if (productInfoList != null) {
+                    productInfoAdapter.updateData(productInfoList);
                 }
             }
         });
 
+
+        mainActivityViewModel.fetchProductInfoList();
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mainActivityViewModel.addNewValue(new ProductInfo("320", "10"));
+                ArrayList<ProductInfo> temp = new ArrayList<>();
+                temp.addAll(mainActivityViewModel.getProductInfoList().getValue());
+                temp.add(new ProductInfo(250.5, 5));
+                temp.add(new ProductInfo(250.7, 10));
+                mainActivityViewModel.getProductInfoList().setValue(temp);
             }
         });
+    }
 
-        View view = getWindow().getDecorView().findViewById(android.R.id.content);
+    public void toast(String text) {
+        Toast.makeText(this, text, Toast.LENGTH_LONG).show();
+    }
 
+    public void changeData(int position) {
+        ArrayList<ProductInfo> temp = new ArrayList<>();
+        temp.addAll(mainActivityViewModel.getProductInfoList().getValue());
+        temp.get(position).setPrice(4598.2);
+        mainActivityViewModel.getProductInfoList().setValue(temp);
+    }
 
-        exampleAdapter = new PackOffRecycler(MainActivity.this, mainActivityViewModel.getProductInfo().getValue());
-        exampleAdapter.setClickListener(MainActivity.this);
-        recyclerView.setAdapter(exampleAdapter);
-
-
-
-
-        /*exampleAdapter.setOnItemClickListener(new ExampleAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                Toast.makeText(getApplicationContext(), position + "", Toast.LENGTH_LONG).show();
-            }
-        });*/
-
+    public void changeBackGround(int position) {
+        ArrayList<ProductInfo> temp = new ArrayList<>();
+        temp.addAll(mainActivityViewModel.getProductInfoList().getValue());
+        temp.get(position).setBackgroundChange(true);
+        mainActivityViewModel.getProductInfoList().setValue(temp);
     }
 
 
-    private void init() {
-        recyclerView = findViewById(R.id.recycler_view);
-        add = findViewById(R.id.button);
-        progressBar = findViewById(R.id.progress_ber);
-    }
-
-    @Override
-    public void onItemClick(View view, int position) {
-        Toast.makeText(MainActivity.this, position + "abc", Toast.LENGTH_LONG).show();
-    }
 }

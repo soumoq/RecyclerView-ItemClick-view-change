@@ -1,23 +1,41 @@
 package com.example.itemclickrecyclerview.model;
 
+import android.content.Intent;
+
 public class ProductInfo {
-    private String price;
-    private String qty;
+    private Double price;
+    private Integer qty;
+    private Boolean backgroundChange = false;
 
+    public ProductInfo() {
+    }
 
-    public ProductInfo(String price, String qty) {
+    public ProductInfo(Double price, Integer qty) {
         this.price = price;
         this.qty = qty;
     }
 
-    public String getPrice() {
+    public Boolean getBackgroundChange() {
+        return backgroundChange;
+    }
+
+    public void setBackgroundChange(Boolean backgroundChange) {
+        this.backgroundChange = backgroundChange;
+    }
+
+    public Double getPrice() {
         return price;
     }
 
+    public void setPrice(Double price) {
+        this.price = price;
+    }
 
-    public String getQty() {
+    public Integer getQty() {
         return qty;
     }
 
-
+    public void setQty(Integer qty) {
+        this.qty = qty;
+    }
 }

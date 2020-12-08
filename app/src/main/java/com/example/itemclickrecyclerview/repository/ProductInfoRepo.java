@@ -26,8 +26,7 @@ public class ProductInfoRepo {
     }
 
     private void setInstance() {
-        dataSet.add(new ProductInfo("200", "5"));
-        dataSet.add(new ProductInfo("300", "7"));
+
     }
 
 }
