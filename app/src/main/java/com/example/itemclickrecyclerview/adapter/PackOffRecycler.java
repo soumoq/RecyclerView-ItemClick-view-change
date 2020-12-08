@@ -1,4 +1,4 @@
-package com.example.itemclickrecyclerview;
+package com.example.itemclickrecyclerview.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,6 +10,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+
+import com.example.itemclickrecyclerview.model.ProductInfo;
+import com.example.itemclickrecyclerview.R;
 
 import java.util.ArrayList;
 
@@ -112,5 +115,61 @@ public class PackOffRecycler extends RecyclerView.Adapter<PackOffRecycler.ViewHo
     // parent activity will implement this method to respond to click events
     public interface ItemClickListener {
         void onItemClick(View view, int position);
+    }
+
+    public static class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleViewHolder> {
+        private ArrayList<String> mExampleList;
+        private OnItemClickListener mListener;
+
+        public interface OnItemClickListener {
+            void onItemClick(int position);
+        }
+
+        public void setOnItemClickListener(OnItemClickListener listener) {
+            mListener = listener;
+        }
+
+        public static class ExampleViewHolder extends RecyclerView.ViewHolder {
+            public TextView mTextView1;
+
+            public ExampleViewHolder(View itemView, final OnItemClickListener listener) {
+                super(itemView);
+                mTextView1 = itemView.findViewById(R.id.item_name);
+
+
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (listener != null) {
+                            int position = getAdapterPosition();
+                            if (position != RecyclerView.NO_POSITION) {
+                                listener.onItemClick(position);
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        public ExampleAdapter(ArrayList<String> exampleList) {
+            mExampleList = exampleList;
+        }
+
+        @Override
+        public ExampleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_pack_off, parent, false);
+            ExampleViewHolder evh = new ExampleViewHolder(v, mListener);
+            return evh;
+        }
+
+        @Override
+        public void onBindViewHolder(ExampleViewHolder holder, int position) {
+            holder.mTextView1.setText(mExampleList.get(position));
+        }
+
+        @Override
+        public int getItemCount() {
+            return mExampleList.size();
+        }
     }
 }

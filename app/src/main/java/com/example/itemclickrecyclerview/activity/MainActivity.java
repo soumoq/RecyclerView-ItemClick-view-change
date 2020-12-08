@@ -1,4 +1,4 @@
-package com.example.itemclickrecyclerview;
+package com.example.itemclickrecyclerview.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
@@ -11,6 +11,9 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.itemclickrecyclerview.model.ProductInfo;
+import com.example.itemclickrecyclerview.R;
+import com.example.itemclickrecyclerview.adapter.PackOffRecycler;
 import com.example.itemclickrecyclerview.viewmodel.MainActivityViewModel;
 
 import java.util.ArrayList;

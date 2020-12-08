@@ -1,4 +1,4 @@
-package com.example.itemclickrecyclerview;
+package com.example.itemclickrecyclerview.model;
 
 public class ProductInfo {
     private String price;

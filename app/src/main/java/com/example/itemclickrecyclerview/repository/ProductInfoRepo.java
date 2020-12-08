@@ -2,7 +2,7 @@ package com.example.itemclickrecyclerview.repository;
 
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.itemclickrecyclerview.ProductInfo;
+import com.example.itemclickrecyclerview.model.ProductInfo;
 
 import java.util.ArrayList;
 
