@@ -30,6 +30,7 @@ public class ProductInfoAdapter extends RecyclerView.Adapter<ProductInfoAdapter.
         notifyDataSetChanged();
     }
 
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

@@ -73,10 +73,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void changeBackGround(int position) {
-        ArrayList<ProductInfo> temp = new ArrayList<>();
-        temp.addAll(mainActivityViewModel.getProductInfoList().getValue());
-        temp.get(position).setBackgroundChange(true);
-        mainActivityViewModel.getProductInfoList().setValue(temp);
+        ArrayList<ProductInfo> tempProductInfoList = new ArrayList<>();
+        tempProductInfoList.addAll(mainActivityViewModel.getProductInfoList().getValue());
+        for (ProductInfo productInfo : tempProductInfoList) {
+            productInfo.setBackgroundChange(false);
+        }
+        tempProductInfoList.get(position).setBackgroundChange(true);
+        mainActivityViewModel.getProductInfoList().setValue(tempProductInfoList);
     }
 
 
